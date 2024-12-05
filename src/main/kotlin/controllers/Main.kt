@@ -2,5 +2,7 @@ package org.example.controllers
 import java.util.*
 
 fun main() {
-    println("Hola")
+    var array = Array(4){Array(7){0} }
+
+    println(array[9][9])
 }
