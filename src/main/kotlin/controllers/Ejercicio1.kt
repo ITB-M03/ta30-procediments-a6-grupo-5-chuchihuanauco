@@ -1,4 +1,5 @@
 package org.example.controllers.ej1
+import controllers.reservaAsientos
 import utilities.*
 import java.text.DecimalFormat
 import java.util.*
@@ -11,13 +12,15 @@ data class Punt (
 
 fun main() {
     val scan = operturaScanner()
-    val xy = mostraPunt("Introduce el valor de x: ", scan, "Introduce el valor de Y: ", scan)
-    mostrarResultado(xy)
-
+    val xy = mostraPunto("Introduce el valor de x: ", scan, "Introduce el valor de Y: ", scan)
+    mostrarPunto(xy)
+    operacionTranslacion(xy, "Introduce el valor de a (desplazamiento x) y el de b (desplazamiento y) \npara la operación de translación: ", scan, scan)
+    operacionEscalado(xy, "Introduce el valro de a para la operación de escalado: ", scan)
+    puntosIguales(xy)
     cerrarScanner(scan)
 }
 
-fun mostraPunt (msg: String, scan : Scanner, msg2:String, scan2 : Scanner) : Punt  {
+fun mostraPunto (msg: String, scan : Scanner, msg2:String, scan2 : Scanner) : Punt {
     print(msg)
     var x = scan.nextFloat()
     print(msg2)
@@ -26,67 +29,41 @@ fun mostraPunt (msg: String, scan : Scanner, msg2:String, scan2 : Scanner) : Pun
     return punto
 }
 
-fun operacionTranslacion(puntos : Punt, msg: String, scan : Scanner, scan2: Scanner) : Punt {
+fun operacionTranslacion(punto : Punt, msg: String, scan : Scanner, scan2: Scanner) {
+    val verde = "\u001b[32m"
+    val reset = "\u001b[0m"
     print(msg)
     val a = scan.nextFloat()
     val b = scan2.nextFloat()
-
-    val punto : Punt = Punt(puntos[] + a, puntos[] + b)
-
+    println(verde + "(${punto.x + a}" + " ${punto.y + b})" + reset)
 }
 
-fun mostrarResultado(punto : Punt) {
+fun mostrarPunto(punto : Punt) {
+    val verde = "\u001b[32m"
+    val reset = "\u001b[0m"
     val df = DecimalFormat("0.000000")
-    println("(${df.format(punto.x)}" + " ${df.format(punto.y)})")
+    println(verde + "(${df.format(punto.x)}" + " ${df.format(punto.y)})" + reset)
+}
+
+fun operacionEscalado(punto : Punt, msg: String, scan: Scanner) {
+    val verde = "\u001b[32m"
+    val reset = "\u001b[0m"
+
+    print(msg)
+    val a = scan.nextFloat()
+    println(verde + "(${punto.x * a}" + " ${punto.y * a})" + reset)
+}
+
+fun puntosIguales(punto : Punt) {
+    val verde = "\u001b[32m"
+    val reset = "\u001b[0m"
+    val result : Boolean
+    if (punto.x == punto.y) result = true
+    else result = false
+
+    println("Los puntos son iguales: " + verde + result + reset)
 }
 
 
 
-
-
-
-
-
-/*
-import java.util.*
-
-//Creamos la clase de los productos
-data class producto (
-    var nom_producto : String,
-    var precio : Float
-)
-
-fun main() {
-    val scan: Scanner = Scanner(System.`in`).useLocale(Locale.UK)
-
-    val cant_productos : Int = scan.nextInt()
-
-
-    var carrito : MutableList<producto> = mutableListOf<producto>()
-    repeat(cant_productos){
-        //Preguntamos por los valores
-        var nombre = scan.next()
-        var precio = scan.nextFloat()
-        //Los añadimos
-        carrito.add(producto(nombre, precio))
-    }
-
-    var buscado = scan.nextInt()
-
-
-    carrito.sortByDescending { it.precio }
-
-
-    var masCaro = carrito[0]
-
-    var masBarato = carrito[cant_productos -1]
-
-    var productoBuscado = carrito[buscado-1]
-
-
-    println("EL MES CAR: ${masCaro.nom_producto} ${masCaro.precio}")
-    println("EL MES BARAT: ${masBarato.nom_producto} ${masBarato.precio}")
-    println("EL BUSCAT: ${productoBuscado.nom_producto} ${productoBuscado.precio}")
-}
- */
 
