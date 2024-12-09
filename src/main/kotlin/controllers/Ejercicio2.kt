@@ -41,9 +41,10 @@ fun salaVacia() : Array<Array<String>> {
  * @param asiesntosCine -> La matriz de la que queremos saber la disponibilidad
  */
 fun visualizarDisponibilidad(asiesntosCine : Array<Array<String>>) {
+    mostrarUnMensaje(" - - - - - - - - - - - - - Aquí está la pantalla - - - - - - - - - - - - - \n")
     for(i in 0 until 20) {
         for(j in 0 until 15) {
-            print("${asiesntosCine[i][j]} ")
+            print(" ${asiesntosCine[i][j]} ")
         }
         println(" ")
     }
@@ -61,20 +62,20 @@ fun visualizarDisponibilidad(asiesntosCine : Array<Array<String>>) {
 fun reservaAsientos(num1 : Int, num2 : Int, asiesntosCine: Array<Array<String>>) : Array<Array<String>> {
     val red = "\u001b[31m"
     val white = "\u001b[0m"
-    try {
-        if(asiesntosCine[num1][num2] == " X "){
-            println(red + "Este asiento está ocupado" + white)
-            println(" ")
+    val green = "\u001b[32m"
+    var seguir = true
+
+        try {
+            if(asiesntosCine[num1][num2] == " X "){
+                mostrarUnMensaje(red + "Este asiento está ocupado \n" + white)
+            }
+            else{
+                asiesntosCine[num1][num2] = " X "
+                mostrarUnMensaje( green + "Se ha realizado correctamente la reserva del asiento \n" + white)
+            }
+        }catch ( e : ArrayIndexOutOfBoundsException) {
+            mostrarUnMensaje(red + "No es posible este asiento no exite \n" + white)
         }
-        else{
-            asiesntosCine[num1][num2] = " X "
-            println("Se ha realizado correctamente la reserva del asiento")
-            println(" ")
-        }
-    }catch ( e : ArrayIndexOutOfBoundsException) {
-        println(red + "No es posible este asiento no exite" + white)
-        println(" ")
-    }
 
     return asiesntosCine
 }
@@ -128,18 +129,18 @@ fun bucle(asientosCine: Array<Array<String>>, scan: Scanner) {
             visualizarDisponibilidad(asientos)
         }
         else if(opcion == dos){
-            var num1 = pedirNumerito("Me gustaría que me dijeses en que fila te gustaría: ", scan) - uno
-            var num2 = pedirNumerito("Me gustaría que ahora me dijeses la columna: ", scan) - uno
+            var num1 = pedirNumerito("Me gustaría que me dijeses en que fila te gustaría (numero de filas -> 20): ", scan) - uno
+            var num2 = pedirNumerito("Me gustaría que ahora me dijeses la columna (numero de columnas -> 15): ", scan) - uno
             reservaAsientos(num1, num2, asientos)
         }
         else if(opcion == tres){
             asientos = salaVacia()
         }
         else if(opcion == cuatro){
-            mostrarUnMensaje("Gracias por utilizar el programa.")
+            mostrarUnMensaje("Gracias por utilizar el programa. \n")
         }
         else {
-            mostrarUnMensaje(red + "El numero seleccionado no es válido" + white)
+            mostrarUnMensaje(red + "El numero seleccionado no es válido \n" + white)
         }
     }
 }
@@ -151,5 +152,5 @@ fun bucle(asientosCine: Array<Array<String>>, scan: Scanner) {
  * @param msg -> El mensaje que saldra por pantalla
  */
 fun mostrarUnMensaje(msg : String){
-    println(msg)
+    print(msg)
 }
